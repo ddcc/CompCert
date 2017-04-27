@@ -76,6 +76,7 @@ Record t: Type := mksenv {
   find_symbol: ident -> option block;
   public_symbol: ident -> bool;
   invert_symbol: block -> option ident;
+  iter_symbol: (option (ident * block) -> ident -> block -> option (ident * block)) -> option (ident * block);
   block_is_volatile: block -> bool;
   nextblock: block;
   (** Properties *)
@@ -206,6 +207,9 @@ Definition invert_symbol (ge: t) (b: block) : option ident :=
   PTree.fold
     (fun res id b' => if eq_block b b' then Some id else res)
     ge.(genv_symb) None.
+
+Definition iter_symbol (ge: t) (f: option (ident * block) -> ident -> block -> option (ident * block)) :=
+  PTree.fold f ge.(genv_symb) None.
 
 (** [find_var_info ge b] returns the information attached to the variable
    at address [b]. *)
@@ -608,6 +612,7 @@ Definition to_senv (ge: t) : Senv.t :=
     (find_symbol ge)
     (public_symbol ge)
     (invert_symbol ge)
+    (iter_symbol ge)
     (block_is_volatile ge)
     ge.(genv_next)
     ge.(genv_vars_inj)
