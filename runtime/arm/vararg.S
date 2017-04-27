@@ -35,6 +35,7 @@
 @ Helper functions for variadic functions <stdarg.h>.  ARM version
 
 #include "sysdeps.h"
+.arch armv7-a
 
 @ typedef void * va_list;
 @ unsigned int __compcert_va_int32(va_list * ap);

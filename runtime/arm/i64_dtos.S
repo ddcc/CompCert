@@ -35,7 +35,7 @@
 @ Helper functions for 64-bit integer arithmetic.  ARM version.
 
 #include "sysdeps.h"
-
+.arch armv7-a
 @@@ Conversion from double float to signed 64-bit integer
 
 FUNCTION(__i64_dtos)
